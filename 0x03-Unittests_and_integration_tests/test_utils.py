@@ -46,9 +46,10 @@ class TestGetJson(unittest.TestCase):
 
 
 class TestMemoize(unittest.TestCase):
-
+    '''test memoize'''
     def test_memoize(self):
-        # Define the inner TestClass
+        '''Test memoize method to ensure that when a_property method
+         called twice is correctly tested by calling a_method once'''
         class TestClass:
             def a_method(self):
                 return 42
