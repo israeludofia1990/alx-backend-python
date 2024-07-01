@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-'''Parameterize a unit test'''
+"""Parameterize a unit test"""
 from utils import (
     access_nested_map,
     get_json,
+    memoize,
 )
 from unittest.mock import patch, Mock
 import unittest
@@ -42,3 +43,24 @@ class TestGetJson(unittest.TestCase):
         result = get_json(test_url)
         self.assertEqual(result, test_payload)
         mock_get.reset_mock()
+
+
+class TestMemoize(unittest.TestCase):
+
+    def test_memoize(self):
+        # Define the inner TestClass
+        class TestClass:
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
+
+        with patch.object(TestClass, 'a_method', return_value=42) as mock:
+            instance = TestClass()
+            result1 = instance.a_property
+            result2 = instance.a_property
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
+            mock.assert_called_once()
