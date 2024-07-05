@@ -26,18 +26,21 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": 1}, ("a", "b"), 'b')
     ])
     def test_access_nested_map_exception(self, nested_map, path, expected):
+        ''' test access nested map exception'''
         with self.assertRaises(KeyError) as err:
             access_nested_map(nested_map, path)
         self.assertEqual(f"KeyError('{expected}')", repr(err.exception))
 
 
 class TestGetJson(unittest.TestCase):
+    '''test get jsob class'''
     @parameterized.expand([
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False})
     ])
     @patch('requests.get')
     def test_get_json(self, test_url, test_payload, mock_get):
+        '''test get json'''
         mock_response = Mock()
         mock_response.json.return_value = test_payload
         mock_get.return_value = mock_response
@@ -52,11 +55,14 @@ class TestMemoize(unittest.TestCase):
         '''Test memoize method to ensure that when a_property method
          called twice is correctly tested by calling a_method once'''
         class TestClass:
+            '''test memoize'''
             def a_method(self):
+                '''a method for memoize'''
                 return 42
 
             @memoize
             def a_property(self):
+                '''a property class'''
                 return self.a_method()
 
         with patch.object(TestClass, 'a_method', return_value=42) as mock:
